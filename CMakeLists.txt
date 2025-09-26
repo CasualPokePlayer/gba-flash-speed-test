@@ -15,4 +15,5 @@ add_executable(FlashSpeedTestMB main.c)
 target_compile_definitions(FlashSpeedTestMB PRIVATE MULTIBOOT)
 add_executable(FlashSpeedTestROM main.c)
 gba_create_rom(FlashSpeedTestMB MULTIBOOT PAD)
-gba_create_rom(FlashSpeedTestROM PAD)
+# BPEE is Emerald's game code, use it for emu autodetection
+gba_create_rom(FlashSpeedTestROM PAD GAMECODE BPEE)

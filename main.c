@@ -675,6 +675,14 @@ static const char* FlashTestPageInfo[NUM_FLASH_TEST_PAGES] =
 	"Program Sectors 16-31 RD",
 };
 
+#ifndef MULTIBOOT
+// for emu autodetection purposes (if gamecode wasn't enough)
+#pragma GCC push_options
+#pragma GCC optimize("O0")
+static __attribute__((aligned(4))) const char* FLASH_LIB_STR = "FLASH1M_V103";
+#pragma GCC pop_options
+#endif
+
 IWRAM_CODE int main()
 {
 	irqInit();
