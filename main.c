@@ -144,12 +144,11 @@ IWRAM_CODE static void SetupTimer(void)
 	REG_TM1CNT_L = 0;
 
 	REG_TM1CNT_H = TIMER_COUNT | TIMER_START;
+	REG_IME = 0;
 }
 
 IWRAM_CODE static FORCE_INLINE void StartTimer(void)
 {
-	SetupTimer();
-	REG_IME = 0;
 	REG_TM0CNT_H = TIMER_START;
 }
 
@@ -202,6 +201,7 @@ IWRAM_CODE static bool EraseSector(u16 sectorNum)
 
 IWRAM_CODE static NO_INLINE bool EraseSectorTimed(u16 sectorNum)
 {
+	SetupTimer();
 	vu8* addr = FLASH_BASE + (sectorNum << FLASH_SECTOR_SHIFT);
 
 	FLASH_WRITE(0x5555, 0xAA);
@@ -259,6 +259,7 @@ IWRAM_CODE static bool ProgramByte(u16 sectorNum, u16 byteOffset, u8 val)
 
 IWRAM_CODE static NO_INLINE bool ProgramByteTimed(u16 sectorNum, u16 byteOffset, u8 val)
 {
+	SetupTimer();
 	vu8* addr = FLASH_BASE + (sectorNum << FLASH_SECTOR_SHIFT) + byteOffset;
 
 	FLASH_WRITE(0x5555, 0xAA);
